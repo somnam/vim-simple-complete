@@ -10,6 +10,7 @@ let g:vsc_type_complete = get(g:, 'vsc_type_complete', 1)
 let g:vsc_type_complete_length = get(g:, 'vsc_type_complete_length', 3)
 let g:vsc_pattern = get(g:, 'vsc_pattern', '\k')
 let g:vsc_complete_options = get(g:, 'vsc_complete_options', 'menu,menuone,noselect')
+let g:vsc_pumheight = get(g:, 'vsc_pumheight', 10)
 
 fun! s:TabCompletePlugin()
     inoremap <expr> <Tab> <SID>TabComplete(0)
@@ -36,7 +37,7 @@ fun! s:TypeCompletePlugin()
             let &cot .= ',' . cot_opt
         endif
     endfor
-    set pumheight=10
+    let &pumheight = g:vsc_pumheight
     let s:vsc_typed_length = 0
     imap <silent> <expr> <plug>(TypeCompleteCommand) <sid>TypeCompleteCommand()
 
