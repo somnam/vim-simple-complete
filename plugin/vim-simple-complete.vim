@@ -9,6 +9,7 @@ let g:vsc_tab_complete = get(g:, 'vsc_tab_complete', 1)
 let g:vsc_type_complete = get(g:, 'vsc_type_complete', 1)
 let g:vsc_type_complete_length = get(g:, 'vsc_type_complete_length', 3)
 let g:vsc_pattern = get(g:, 'vsc_pattern', '\k')
+let g:vsc_complete_options = get(g:, 'vsc_complete_options', 'menu,menuone,noselect')
 
 fun! s:TabCompletePlugin()
     inoremap <expr> <Tab> <SID>TabComplete(0)
@@ -28,9 +29,13 @@ fun! s:CurrentChar()
 endfun
 
 fun! s:TypeCompletePlugin()
-    set completeopt+=menu
-    set completeopt+=menuone
-    set completeopt+=noselect
+    " Update completeopt settings.
+    for cot_opt in split(g:vsc_complete_options, ',')
+        " Don't override user set options.
+        if &cot !~ cot_opt
+            let &cot .= ',' . cot_opt
+        endif
+    endfor
     set pumheight=10
     let s:vsc_typed_length = 0
     imap <silent> <expr> <plug>(TypeCompleteCommand) <sid>TypeCompleteCommand()
