@@ -44,7 +44,9 @@ fun! s:TypeCompletePlugin()
     augroup TypeCompletePlugin
         autocmd!
         autocmd InsertCharPre * noautocmd call s:TypeComplete()
+        " Reset completion counter on insert mode, completion selection.
         autocmd InsertEnter * let s:vsc_typed_length = 0
+        autocmd CompleteDone * let s:vsc_typed_length = 0
     augroup END
 
     fun! s:TypeCompleteCommand()
